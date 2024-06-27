@@ -1,0 +1,10 @@
+john,password123
+jane,qwerty123
+alice,123456
+bob,letmein
+charlie,abcdef
+dave,passw0rd
+eve,iloveyou
+frank,monkey
+grace,dragon
+hank,1q2w3e4r
