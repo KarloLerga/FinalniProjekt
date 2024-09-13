@@ -10,7 +10,7 @@ public class ToolBarPanel extends JPanel {
         viewOrdersButton = new JButton("View Orders");
         logoutButton = new JButton("Logout"); // Add Logout button
 
-        // Action listener for viewing orders
+        // View Orders action listener
         viewOrdersButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (toolBarListener != null) {
@@ -19,7 +19,7 @@ public class ToolBarPanel extends JPanel {
             }
         });
 
-        // Action listener for logging out
+        // Logout action listener
         logoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (toolBarListener != null) {

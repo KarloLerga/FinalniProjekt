@@ -3,13 +3,34 @@ import java.util.*;
 
 public class LoginManager {
     private Map<String, String> userCredentials = new HashMap<>();
-    private Map<String, List<Order>> userOrders = new HashMap<>(); // Added to track user orders
+    private Map<String, List<Order>> userOrders = new HashMap<>(); // Stores orders per user
 
     public LoginManager() {
         loadUserCredentials();
-        loadUserOrders(); // Load user orders from file
+        loadUserOrders(); // Load user orders from the file
     }
 
+    // Add an order to the user's list and save it
+    public void addOrder(String username, Order order) {
+        userOrders.computeIfAbsent(username, k -> new ArrayList<>()).add(order);
+        saveUserOrders(); // Save updated orders to the file
+    }
+
+    // Get the orders for a specific user
+    public List<Order> getUserOrders(String username) {
+        return userOrders.getOrDefault(username, new ArrayList<>());
+    }
+
+    // Remove a specific order by index
+    public void removeOrder(String username, int orderIndex) {
+        List<Order> orders = userOrders.get(username);
+        if (orders != null && orderIndex >= 0 && orderIndex < orders.size()) {
+            orders.remove(orderIndex);
+            saveUserOrders(); // Save updated orders after removal
+        }
+    }
+
+    // Load user credentials from the file
     private void loadUserCredentials() {
         try (BufferedReader reader = new BufferedReader(new FileReader("src/users.txt"))) {
             String line;
@@ -24,21 +45,10 @@ public class LoginManager {
         }
     }
 
-    // Method to retrieve orders for a specific user
-    public List<Order> getUserOrders(String username) {
-        return userOrders.getOrDefault(username, new ArrayList<>());
-    }
-
-    // Method to add an order for a user
-    public void addOrder(String username, Order order) {
-        userOrders.computeIfAbsent(username, k -> new ArrayList<>()).add(order);
-        saveUserOrders(); // Save the updated orders list
-    }
-
     // Load user orders from the file
     private void loadUserOrders() {
         File file = new File("src/orders.txt");
-        if (file.exists()) {
+        if (file.exists() && file.length() != 0) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 userOrders = (Map<String, List<Order>>) ois.readObject();
             } catch (IOException | ClassNotFoundException e) {

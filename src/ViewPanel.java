@@ -15,7 +15,7 @@ public class ViewPanel extends JPanel {
         JScrollPane cartScrollPane = new JScrollPane(cartArea);
 
         totalPriceLabel = new JLabel("Total Price: $0.0");
-        fpsLabel = new JLabel("Estimated FPS: N/A");
+        fpsLabel = new JLabel("Estimated FPS (1080p): N/A");
 
         add(cartScrollPane, BorderLayout.CENTER);
         add(totalPriceLabel, BorderLayout.SOUTH);
@@ -31,6 +31,6 @@ public class ViewPanel extends JPanel {
     }
 
     public void displayFPS(double fps) {
-        fpsLabel.setText("Estimated FPS: " + Math.round(fps) + " FPS");
+        fpsLabel.setText("Estimated FPS (1080p): " + Math.round(fps) + " FPS");
     }
 }
