@@ -1,1 +1,1 @@
-[JavaDoc dokumentacija](./javadoc/index.html)
+[JavaDoc dokumentacija](docs/index.html)
