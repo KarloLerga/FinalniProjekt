@@ -128,14 +128,22 @@ public class MainFrame extends JFrame {
      * @param event Objekt FormEvent koji sadrži odabrane komponente.
      */
     private void handleCalculateFPSEvent(FormEvent event) {
+        // Dohvaćanje odabrane rezolucije
+        String resolution = "1080p";
+        if (formPanel.getResolution1440p().isSelected()) {
+            resolution = "1440p";
+        } else if (formPanel.getResolution2160p().isSelected()) {
+            resolution = "2160p";
+        }
+
         // Dohvaća odabrane komponente za izračun FPS-a
         String processor = event.getSelectedComponents().get("processor");
         String graphicsCard = event.getSelectedComponents().get("graphicsCard");
         String ram = event.getSelectedComponents().get("ram");
         String game = event.getSelectedComponents().get("game");
 
-        // Izračunava FPS na temelju odabranih komponenti
-        double estimatedFPS = orderManager.calculateFPS(processor, graphicsCard, ram, game);
+        // Izračunava FPS na temelju odabranih komponenti i rezolucije
+        double estimatedFPS = orderManager.calculateFPS(processor, graphicsCard, ram, game, resolution);
 
         // Ažurira prikaz FPS-a u ViewPanelu
         viewPanel.displayFPS(estimatedFPS);
@@ -158,33 +166,28 @@ public class MainFrame extends JFrame {
         if (orders.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No orders found for user: " + loggedInUsername);
         } else {
-            // Kreira JPanel za prikaz narudžbi s mogućnošću proširivanja i pregledavanja detalja
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
             JLabel userLabel = new JLabel("Orders for User: " + loggedInUsername);
             panel.add(userLabel);
 
-            // Kreira DefaultListModel za pohranu zaglavlja narudžbi
             DefaultListModel<String> listModel = new DefaultListModel<>();
             JList<String> orderList = new JList<>(listModel);
             orderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             JScrollPane scrollPane = new JScrollPane(orderList);
             scrollPane.setPreferredSize(new Dimension(500, 300));
 
-            // Dodaje narudžbe u listu prikazom samo ukupne cijene
             for (int i = 0; i < orders.size(); i++) {
                 Order order = orders.get(i);
                 String orderHeader = "Order " + (i + 1) + " - Total: $" + String.format("%.2f", order.getTotalPrice());
                 listModel.addElement(orderHeader);
             }
 
-            // Kreira JTextArea za prikaz detalja narudžbe (komponente i cijene)
             JTextArea orderDetails = new JTextArea();
             orderDetails.setEditable(false);
-            orderDetails.setVisible(false); // Skriveno na početku
+            orderDetails.setVisible(false);
 
-            // Dodaje listener za prikaz detalja narudžbe kada se klikne na narudžbu
             orderList.addListSelectionListener(e -> {
                 if (!e.getValueIsAdjusting() && orderList.getSelectedIndex() != -1) {
                     int selectedIndex = orderList.getSelectedIndex();
@@ -194,11 +197,9 @@ public class MainFrame extends JFrame {
                 }
             });
 
-            // Dodaje JTextArea za detalje narudžbe na panel
             panel.add(scrollPane);
             panel.add(orderDetails);
 
-            // Kreira gumbe za dijalog
             Object[] options = {"Cancel Order", "Close"};
             int result = JOptionPane.showOptionDialog(
                     this,
@@ -208,13 +209,11 @@ public class MainFrame extends JFrame {
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     options,
-                    options[1]  // Zadani fokus na gumb "Close"
+                    options[1]
             );
 
-            // Ako korisnik odabere "Cancel Order", omogućuje mu otkazivanje odabrane narudžbe
             if (result == JOptionPane.YES_OPTION && orderList.getSelectedIndex() != -1) {
                 int selectedIndex = orderList.getSelectedIndex();
-                // Potvrda otkazivanja
                 int confirmResult = JOptionPane.showConfirmDialog(
                         this,
                         "Are you sure you want to cancel Order " + (selectedIndex + 1) + "?",
@@ -222,9 +221,9 @@ public class MainFrame extends JFrame {
                         JOptionPane.YES_NO_OPTION
                 );
                 if (confirmResult == JOptionPane.YES_OPTION) {
-                    loginManager.removeOrder(loggedInUsername, selectedIndex); // Uklanja narudžbu
+                    loginManager.removeOrder(loggedInUsername, selectedIndex);
                     JOptionPane.showMessageDialog(this, "Order canceled successfully.");
-                    listModel.remove(selectedIndex); // Ažurira model liste
+                    listModel.remove(selectedIndex);
                 }
             }
         }

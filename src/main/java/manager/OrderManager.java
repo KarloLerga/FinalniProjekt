@@ -8,8 +8,10 @@ import java.util.*;
  * Klasa OrderManager upravlja košaricom i narudžbama, provjerava kompatibilnost komponenti i izračunava FPS za igre.
  */
 public class OrderManager {
-    private List<Component> cart = new ArrayList<>(); // Lista komponenti u košarici
-    private double totalPrice = 0.0; // Ukupna cijena komponenti u košarici
+    // Lista komponenti u košarici
+    private List<Component> cart = new ArrayList<>();
+    // Ukupna cijena komponenti u košarici
+    private double totalPrice = 0.0;
 
     /**
      * Dodaje komponentu u košaricu i ažurira ukupnu cijenu.
@@ -17,8 +19,10 @@ public class OrderManager {
      * @param component Komponenta koja se dodaje u košaricu.
      */
     public void addComponentToCart(Component component) {
+        // Dodaje komponentu u košaricu
         cart.add(component);
-        totalPrice += component.getPrice(); // Ažurira ukupnu cijenu
+        // Ažurira ukupnu cijenu
+        totalPrice += component.getPrice();
     }
 
     /**
@@ -35,7 +39,7 @@ public class OrderManager {
         String processor = selectedComponents.get("processor");
         String ram = selectedComponents.get("ram");
 
-        // Provjera kompatibilnosti između GPU i PSU (napajanja)
+        // Provjera kompatibilnosti napajanja (PSU) s grafičkom karticom (GPU)
         int gpuPowerRequirement = getGpuPowerRequirement(gpu);
         int psuPowerCapacity = getPsuPowerCapacity(psu);
 
@@ -43,7 +47,7 @@ public class OrderManager {
             return "Incompatible PSU for the selected GPU. The selected GPU requires at least " + gpuPowerRequirement + "W, but the PSU only provides " + psuPowerCapacity + "W.";
         }
 
-        // Provjera kompatibilnosti između matične ploče i procesora (socket)
+        // Provjera kompatibilnosti procesora i matične ploče po socket tipu
         String motherboardSocketType = getMotherboardSocketType(motherboard);
         String cpuSocketType = getCpuSocketType(processor);
 
@@ -56,34 +60,47 @@ public class OrderManager {
             return "Incompatible RAM for the selected motherboard. The selected RAM is not compatible with the " + motherboardSocketType + " motherboard.";
         }
 
-        return "compatible"; // Sve komponente su kompatibilne
+        return "compatible"; // Komponente su kompatibilne
     }
 
     /**
-     * Izračunava FPS (frames per second) na temelju odabranih komponenti i igre.
+     * Izračunava FPS (frames per second) na temelju odabranih komponenti, igre i rezolucije.
      *
      * @param cpu Procesor.
      * @param gpu Grafička kartica.
      * @param ram RAM memorija.
      * @param game Igra.
+     * @param resolution Odabrana rezolucija (1080p, 1440p, 2160p).
      * @return Procijenjeni FPS.
      */
-    public double calculateFPS(String cpu, String gpu, String ram, String game) {
-        double cpuFactor = getCpuPerformanceFactor(cpu); // Faktor performansi procesora
-        double gpuFactor = getGpuPerformanceFactor(gpu); // Faktor performansi grafičke kartice
-        double ramFactor = getRamPerformanceFactor(ram); // Faktor performansi RAM-a
-        double baseFPS = getGameBaseFPS(game); // Osnovni FPS za odabranu igru
+    public double calculateFPS(String cpu, String gpu, String ram, String game, String resolution) {
+        // Dohvaća faktor performansi za CPU, GPU i RAM te osnovni FPS za igru
+        double cpuFactor = getCpuPerformanceFactor(cpu);
+        double gpuFactor = getGpuPerformanceFactor(gpu);
+        double ramFactor = getRamPerformanceFactor(ram);
+        double baseFPS = getGameBaseFPS(game);
 
-        return baseFPS * cpuFactor * gpuFactor * ramFactor; // Konačni izračun FPS-a
+        // Smanjenje FPS-a ovisno o rezoluciji
+        switch (resolution) {
+            case "1440p":
+                baseFPS *= 0.75; // Smanjenje FPS-a za 25% za 1440p rezoluciju
+                break;
+            case "2160p":
+                baseFPS *= 0.5; // Smanjenje FPS-a za 50% za 2160p rezoluciju
+                break;
+        }
+
+        // Konačni izračun FPS-a na temelju svih faktora
+        return baseFPS * cpuFactor * gpuFactor * ramFactor;
     }
 
-    // Pomoćne metode za izračun FPS-a
+    // Pomoćne metode za izračun performansi različitih komponenti:
 
     /**
-     * Dohvaća faktor performansi procesora na temelju modela procesora.
+     * Vraća faktor performansi CPU-a na temelju odabranog modela.
      *
      * @param cpu Procesor.
-     * @return Faktor performansi.
+     * @return Faktor performansi CPU-a.
      */
     private double getCpuPerformanceFactor(String cpu) {
         switch (cpu) {
@@ -104,15 +121,15 @@ public class OrderManager {
             case "AMD Ryzen 5 9600X - $300":
                 return 1.0;
             default:
-                return 0.8; // Za nepoznate modele
+                return 0.8; // Default za slabije CPU-ove
         }
     }
 
     /**
-     * Dohvaća faktor performansi grafičke kartice na temelju modela kartice.
+     * Vraća faktor performansi GPU-a na temelju odabranog modela.
      *
      * @param gpu Grafička kartica.
-     * @return Faktor performansi.
+     * @return Faktor performansi GPU-a.
      */
     private double getGpuPerformanceFactor(String gpu) {
         switch (gpu) {
@@ -136,15 +153,15 @@ public class OrderManager {
             case "NVIDIA GeForce RTX 2060 - $350":
                 return 0.9;
             default:
-                return 0.8; // Za nepoznate modele
+                return 0.8; // Default za slabije GPU-ove
         }
     }
 
     /**
-     * Dohvaća faktor performansi RAM-a na temelju brzine memorije.
+     * Vraća faktor performansi RAM-a na temelju brzine memorije.
      *
      * @param ram RAM memorija.
-     * @return Faktor performansi.
+     * @return Faktor performansi RAM-a.
      */
     private double getRamPerformanceFactor(String ram) {
         if (ram.contains("6400MHz")) {
@@ -154,15 +171,15 @@ public class OrderManager {
         } else if (ram.contains("5200MHz")) {
             return 1.1;
         } else {
-            return 1.0;
+            return 1.0; // Default performanse za sporiji RAM
         }
     }
 
     /**
-     * Dohvaća osnovni FPS za određenu igru.
+     * Vraća osnovni FPS za određenu igru.
      *
      * @param game Igra.
-     * @return Osnovni FPS za igru.
+     * @return Osnovni FPS.
      */
     private double getGameBaseFPS(String game) {
         switch (game) {
@@ -173,17 +190,17 @@ public class OrderManager {
             case "Minecraft":
                 return 200.0; // Najmanje zahtjevna igra
             default:
-                return 100.0; // Zadani FPS za nepoznate igre
+                return 100.0; // Default FPS za nepoznate igre
         }
     }
 
-    // Pomoćne metode za provjeru kompatibilnosti
+    // Pomoćne metode za provjeru kompatibilnosti:
 
     /**
-     * Dohvaća zahtjeve napajanja za odabranu grafičku karticu.
+     * Dohvaća minimalnu snagu napajanja za odabranu grafičku karticu.
      *
      * @param gpu Grafička kartica.
-     * @return Minimalna snaga napajanja (Watti).
+     * @return Minimalna potrebna snaga PSU (u W).
      */
     private int getGpuPowerRequirement(String gpu) {
         if (gpu.contains("NVIDIA GeForce RTX 4090")) {
@@ -197,15 +214,15 @@ public class OrderManager {
         } else if (gpu.contains("AMD Radeon RX 7600 XT")) {
             return 500;
         } else {
-            return 450; // Zadani minimum za nepoznate GPU-ove
+            return 450; // Default za manje zahtjevne grafičke kartice
         }
     }
 
     /**
-     * Dohvaća kapacitet napajanja (PSU) u Wattima.
+     * Dohvaća snagu odabranog napajanja (PSU).
      *
      * @param psu Napajanje.
-     * @return Snaga napajanja (Watti).
+     * @return Snaga napajanja (u W).
      */
     private int getPsuPowerCapacity(String psu) {
         switch (psu) {
@@ -222,12 +239,12 @@ public class OrderManager {
             case "450W - $100":
                 return 450;
             default:
-                return 0; // Nepoznati PSU
+                return 0; // Default za nepoznato napajanje
         }
     }
 
     /**
-     * Dohvaća socket tip matične ploče.
+     * Vraća socket tip odabrane matične ploče.
      *
      * @param motherboard Matična ploča.
      * @return Socket tip matične ploče.
@@ -248,7 +265,7 @@ public class OrderManager {
     }
 
     /**
-     * Dohvaća socket tip procesora.
+     * Vraća socket tip procesora.
      *
      * @param cpu Procesor.
      * @return Socket tip procesora.
@@ -271,14 +288,14 @@ public class OrderManager {
     }
 
     /**
-     * Provjerava kompatibilnost RAM-a s matičnom pločom.
+     * Provjerava je li RAM kompatibilan s odabranom matičnom pločom.
      *
      * @param motherboardSocket Socket tip matične ploče.
      * @param ram RAM memorija.
-     * @return true ako je RAM kompatibilan, inače false.
+     * @return true ako je RAM kompatibilan s matičnom pločom, inače false.
      */
     private boolean isRamCompatibleWithMotherboard(String motherboardSocket, String ram) {
-        return ram.startsWith("DDR5"); // Provjerava je li RAM DDR5, jer je kompatibilan s AM5 i LGA1700
+        return ram.startsWith("DDR5"); // Kompatibilnost za DDR5 RAM
     }
 
     /**
@@ -291,7 +308,7 @@ public class OrderManager {
     }
 
     /**
-     * Vraća ukupnu cijenu komponenata u košarici.
+     * Vraća ukupnu cijenu komponenti u košarici.
      *
      * @return Ukupna cijena.
      */

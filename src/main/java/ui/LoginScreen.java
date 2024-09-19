@@ -27,7 +27,7 @@ public class LoginScreen extends JFrame {
         loginManager = new LoginManager(); // Kreira instancu LoginManagera za provjeru prijave
 
         setTitle("PC Builder - Login"); // Postavlja naslov prozora
-        setSize(600, 400); // Postavlja dimenzije prozora
+        setSize(650, 450); // Postavlja dimenzije prozora
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Postavlja način zatvaranja prozora
 
         // Kreira panel za prijavu s GridBagLayout rasporedom za precizno pozicioniranje elemenata

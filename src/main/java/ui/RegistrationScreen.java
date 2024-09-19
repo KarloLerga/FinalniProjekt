@@ -14,6 +14,7 @@ public class RegistrationScreen extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JCheckBox showPasswordCheckBox;
+    private JCheckBox termsCheckBox; // Checkbox za prihvaćanje uvjeta korištenja
     private JButton registerButton, backButton;
     private LoginManager loginManager;
     private JLabel logoLabel;
@@ -25,7 +26,7 @@ public class RegistrationScreen extends JFrame {
         loginManager = new LoginManager(); // Kreira instancu LoginManager-a za provjeru i dodavanje korisnika
 
         setTitle("PC Builder - Register"); // Postavlja naslov prozora
-        setSize(600, 400); // Postavlja veličinu prozora
+        setSize(650, 450); // Postavlja veličinu prozora
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Postavlja način zatvaranja prozora
 
         JPanel panel = new JPanel(new GridBagLayout()); // Koristi GridBagLayout za precizno pozicioniranje komponenata
@@ -75,15 +76,21 @@ public class RegistrationScreen extends JFrame {
         gbc.gridy = 3;
         panel.add(showPasswordCheckBox = new JCheckBox("Show Password"), gbc);
 
-        // Gumb za registraciju
+        // Checkbox za prihvaćanje uvjeta korištenja
         gbc.gridx = 1;
         gbc.gridy = 4;
+        termsCheckBox = new JCheckBox("I accept the Terms of Service");
+        panel.add(termsCheckBox, gbc);
+
+        // Gumb za registraciju
+        gbc.gridx = 1;
+        gbc.gridy = 5;
         registerButton = new JButton("Register");
         panel.add(registerButton, gbc);
 
         // Gumb za povratak
         gbc.gridx = 1;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         backButton = new JButton("Back");
         panel.add(backButton, gbc);
 
@@ -106,14 +113,14 @@ public class RegistrationScreen extends JFrame {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
 
-            // Provjerava je li korisničko ime i lozinka uneseno
+            // Provjera je li korisničko ime, lozinka uneseno i jesu li uvjeti korištenja prihvaćeni
             if (username.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(RegistrationScreen.this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!termsCheckBox.isSelected()) {
+                JOptionPane.showMessageDialog(RegistrationScreen.this, "You must accept the Terms of Service to register.", "Error", JOptionPane.ERROR_MESSAGE);
             } else if (loginManager.userExists(username)) {
-                // Provjerava postoji li korisnik već u sustavu
                 JOptionPane.showMessageDialog(RegistrationScreen.this, "User already exists!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                // Dodaje novog korisnika u sustav
                 loginManager.addNewUser(username, password);
                 JOptionPane.showMessageDialog(RegistrationScreen.this, "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose(); // Zatvara prozor za registraciju

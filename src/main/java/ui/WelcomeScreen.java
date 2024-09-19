@@ -20,7 +20,7 @@ public class WelcomeScreen extends JFrame {
      */
     public WelcomeScreen() {
         setTitle("PC Builder - Welcome"); // Postavlja naslov prozora
-        setSize(600, 400); // Postavlja veličinu prozora
+        setSize(650, 450); // Postavlja veličinu prozora
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvara aplikaciju na klik gumba za zatvaranje
 
         // Panel za smještaj komponenti, koristi GridBagLayout za precizno pozicioniranje

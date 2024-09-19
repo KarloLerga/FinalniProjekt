@@ -18,12 +18,16 @@ public class FormPanel extends JPanel {
     private JButton addToCartButton, calculateFPSButton;
     private FormPanelListener formPanelListener;
 
+    // Radio buttoni za odabir rezolucije
+    private JRadioButton resolution1080p, resolution1440p, resolution2160p;
+    private ButtonGroup resolutionGroup;
+
     /**
      * Konstruktor koji inicijalizira FormPanel i sve njegove elemente.
      * Kreira grafičko sučelje s opcijama za odabir komponenti.
      */
     public FormPanel() {
-        setLayout(new GridLayout(9, 2)); // Raspored s 9 redova i 2 stupca
+        setLayout(new GridLayout(11, 2)); // Raspored s 11 redova i 2 stupca
 
         // Ažurirane opcije matičnih ploča (AM5 & LGA1700)
         motherboardComboBox = new JComboBox<>(new String[]{
@@ -117,6 +121,27 @@ public class FormPanel extends JPanel {
         add(new JLabel("Igra:"));
         add(gameComboBox);
 
+        // Radio buttoni za odabir rezolucije
+        resolution1080p = new JRadioButton("1080p", true);
+        resolution1440p = new JRadioButton("1440p");
+        resolution2160p = new JRadioButton("2160p");
+
+        // Grupiraj radio buttone
+        resolutionGroup = new ButtonGroup();
+        resolutionGroup.add(resolution1080p);
+        resolutionGroup.add(resolution1440p);
+        resolutionGroup.add(resolution2160p);
+
+        // Panel za rezoluciju s horizontalnim prikazom (FlowLayout)
+        JPanel resolutionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        resolutionPanel.add(resolution1080p);
+        resolutionPanel.add(resolution1440p);
+        resolutionPanel.add(resolution2160p);
+
+        // Dodaj panel za rezoluciju
+        add(new JLabel("Resolution:"));
+        add(resolutionPanel);
+
         // Gumb za dodavanje u košaricu
         addToCartButton = new JButton("Dodaj u košaricu");
         add(addToCartButton);
@@ -181,6 +206,22 @@ public class FormPanel extends JPanel {
                 powerSupplyComboBox.getSelectedIndex() != 0 &&
                 graphicsCardComboBox.getSelectedIndex() != 0 &&
                 gameComboBox.getSelectedIndex() != 0;
+    }
+
+    /**
+     * Getter za radio gumb za 1440p rezoluciju
+     * @return JRadioButton za 1440p
+     */
+    public JRadioButton getResolution1440p() {
+        return resolution1440p;
+    }
+
+    /**
+     * Getter za radio gumb za 2160p rezoluciju
+     * @return JRadioButton za 2160p
+     */
+    public JRadioButton getResolution2160p() {
+        return resolution2160p;
     }
 
     /**

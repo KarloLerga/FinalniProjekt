@@ -25,7 +25,7 @@ public class ViewPanel extends JPanel {
         JScrollPane cartScrollPane = new JScrollPane(cartArea); // Omotava tekstualno polje u scroll pane za pomicanje
 
         totalPriceLabel = new JLabel("Total Price: $0.0"); // Labela za prikaz početne cijene
-        fpsLabel = new JLabel("Estimated FPS (1080p): N/A"); // Labela za prikaz početnog FPS-a
+        fpsLabel = new JLabel("Estimated FPS: N/A"); // Labela za prikaz početnog FPS-a
 
         // Dodaje komponente na panel: košaricu u centar, cijenu na jug, FPS na sjever
         add(cartScrollPane, BorderLayout.CENTER);
