@@ -1,5 +1,7 @@
 # Dokumentacija za aplikaciju PC Builder
 
+Ovdje možete pristupiti [JavaDoc dokumentaciji](https://karlolerga.github.io/FinalniProjekt/) za Finalni Projekt.
+
 
 ## Opis problema
 
