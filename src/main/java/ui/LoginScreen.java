@@ -76,7 +76,7 @@ public class LoginScreen extends JFrame {
         // Checkbox za prikazivanje ili skrivanje lozinke
         gbc.gridx = 1;
         gbc.gridy = 3;
-        loginPanel.add(showPasswordCheckBox = new JCheckBox("Show Password"), gbc);
+        loginPanel.add(showPasswordCheckBox = new JCheckBox("Pokaži lozinku"), gbc);
 
         // Gumb za prijavu
         gbc.gridx = 1;
@@ -112,14 +112,14 @@ public class LoginScreen extends JFrame {
 
             // Provjera prijave putem LoginManagera
             if (loginManager.loginUser(username, password)) {
-                JOptionPane.showMessageDialog(LoginScreen.this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(LoginScreen.this, "Prijava uspješna", "Success", JOptionPane.INFORMATION_MESSAGE);
                 if (loginListener != null) {
                     loginListener.loginSuccessful(); // Obavijest o uspješnoj prijavi
                 }
                 dispose(); // Zatvara prozor za prijavu
                 new MainFrame(username); // Otvara glavni prozor s korisničkim imenom
             } else {
-                JOptionPane.showMessageDialog(LoginScreen.this, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(LoginScreen.this, "Prijava nije uspijela", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 

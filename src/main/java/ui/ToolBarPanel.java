@@ -23,22 +23,18 @@ public class ToolBarPanel extends JPanel {
         logoutButton = new JButton("Logout"); // Gumb za odjavu
 
         // Action listener za gumb "View Orders"
-        viewOrdersButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (toolBarListener != null) {
-                    // Aktivira događaj pregleda narudžbi
-                    toolBarListener.toolBarEventOccurred(new ToolBarEvent(false, true));
-                }
+        viewOrdersButton.addActionListener(e -> {
+            if (toolBarListener != null) {
+                // Aktivira događaj pregleda narudžbi
+                toolBarListener.toolBarEventOccurred(new ToolBarEvent(false, true));
             }
         });
 
         // Action listener za gumb "Logout"
-        logoutButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (toolBarListener != null) {
-                    // Aktivira događaj odjave
-                    toolBarListener.toolBarEventOccurred(new ToolBarEvent(true, false));
-                }
+        logoutButton.addActionListener(e -> {
+            if (toolBarListener != null) {
+                // Aktivira događaj odjave
+                toolBarListener.toolBarEventOccurred(new ToolBarEvent(true, false));
             }
         });
 

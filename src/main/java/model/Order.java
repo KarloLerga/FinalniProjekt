@@ -67,11 +67,11 @@ public class Order implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Order Date & Time: ").append(dateTime).append("\n"); // Dodaje datum i vrijeme
+        sb.append("Datum i vrijeme narudžbe: ").append(dateTime).append("\n"); // Dodaje datum i vrijeme
         for (Component component : components) {
             sb.append(component.toString()).append("\n"); // Dodaje informacije o svakoj komponenti
         }
-        sb.append("Total Price: $").append(totalPrice).append("\n"); // Dodaje ukupnu cijenu
+        sb.append("Ukupna cijena: $").append(totalPrice).append("\n"); // Dodaje ukupnu cijenu
         return sb.toString();
     }
 }

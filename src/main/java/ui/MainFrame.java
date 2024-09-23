@@ -44,34 +44,28 @@ public class MainFrame extends JFrame {
         toolBarPanel = new ToolBarPanel();
 
         // Postavljanje listenera za događaje na formi
-        formPanel.setFormPanelListener(new FormPanelListener() {
-            @Override
-            public void formEventOccurred(FormEvent event, boolean isAddToCart) {
-                String compatibilityMessage = orderManager.checkCompatibility(event.getSelectedComponents());
+        formPanel.setFormPanelListener((event, isAddToCart) -> {
+            String compatibilityMessage = orderManager.checkCompatibility(event.getSelectedComponents());
 
-                // Provjera kompatibilnosti komponenti
-                if (compatibilityMessage.equals("compatible")) {
-                    if (isAddToCart) {
-                        handleAddToCartEvent(event); // Dodavanje u košaricu
-                    } else {
-                        handleCalculateFPSEvent(event); // Izračun FPS-a
-                    }
+            // Provjera kompatibilnosti komponenti
+            if (compatibilityMessage.equals("compatible")) {
+                if (isAddToCart) {
+                    handleAddToCartEvent(event); // Dodavanje u košaricu
                 } else {
-                    // Prikaz poruke o grešci ako su komponente nekompatibilne
-                    JOptionPane.showMessageDialog(MainFrame.this, compatibilityMessage, "Compatibility Error", JOptionPane.ERROR_MESSAGE);
+                    handleCalculateFPSEvent(event); // Izračun FPS-a
                 }
+            } else {
+                // Prikaz poruke o grešci ako su komponente nekompatibilne
+                JOptionPane.showMessageDialog(MainFrame.this, compatibilityMessage, "Compatibility Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         // Postavljanje listenera za događaje na alatnoj traci
-        toolBarPanel.setToolBarListener(new ToolBarListener() {
-            @Override
-            public void toolBarEventOccurred(ToolBarEvent event) {
-                if (event.isLogoutEvent()) {
-                    handleLogoutEvent(); // Rukovanje odjavom
-                } else if (event.isViewOrdersEvent()) {
-                    handleViewOrdersEvent(); // Pregled narudžbi za trenutnog korisnika
-                }
+        toolBarPanel.setToolBarListener(event -> {
+            if (event.isLogoutEvent()) {
+                handleLogoutEvent(); // Rukovanje odjavom
+            } else if (event.isViewOrdersEvent()) {
+                handleViewOrdersEvent(); // Pregled narudžbi za trenutnog korisnika
             }
         });
 

@@ -54,6 +54,6 @@ public class ViewPanel extends JPanel {
      * @param fps Procijenjeni FPS.
      */
     public void displayFPS(double fps) {
-        fpsLabel.setText("Estimated FPS (1080p): " + Math.round(fps) + " FPS"); // Ažurira prikaz FPS-a s zaokruženom vrijednošću
+        fpsLabel.setText("Estimated FPS: " + Math.round(fps) + " FPS"); // Ažurira prikaz FPS-a s zaokruženom vrijednošću
     }
 }

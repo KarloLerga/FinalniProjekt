@@ -74,12 +74,12 @@ public class RegistrationScreen extends JFrame {
         // Checkbox za prikazivanje ili skrivanje lozinke
         gbc.gridx = 1;
         gbc.gridy = 3;
-        panel.add(showPasswordCheckBox = new JCheckBox("Show Password"), gbc);
+        panel.add(showPasswordCheckBox = new JCheckBox("Pokaži lozinku"), gbc);
 
         // Checkbox za prihvaćanje uvjeta korištenja
         gbc.gridx = 1;
         gbc.gridy = 4;
-        termsCheckBox = new JCheckBox("I accept the Terms of Service");
+        termsCheckBox = new JCheckBox("Prihvaćam uvjete korištenja");
         panel.add(termsCheckBox, gbc);
 
         // Gumb za registraciju
@@ -115,14 +115,14 @@ public class RegistrationScreen extends JFrame {
 
             // Provjera je li korisničko ime, lozinka uneseno i jesu li uvjeti korištenja prihvaćeni
             if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(RegistrationScreen.this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(RegistrationScreen.this, "Popunite sva polja.", "Error", JOptionPane.ERROR_MESSAGE);
             } else if (!termsCheckBox.isSelected()) {
-                JOptionPane.showMessageDialog(RegistrationScreen.this, "You must accept the Terms of Service to register.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(RegistrationScreen.this, "Morate prihvatiti uvjete korištenja.", "Error", JOptionPane.ERROR_MESSAGE);
             } else if (loginManager.userExists(username)) {
-                JOptionPane.showMessageDialog(RegistrationScreen.this, "User already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(RegistrationScreen.this, "Korisnik već postoji!", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 loginManager.addNewUser(username, password);
-                JOptionPane.showMessageDialog(RegistrationScreen.this, "Registration successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(RegistrationScreen.this, "Registracija je uspješna!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose(); // Zatvara prozor za registraciju
                 new LoginScreen(); // Preusmjerava na ekran za prijavu nakon uspješne registracije
             }

@@ -34,6 +34,7 @@ Kako bi se postigla tražena funkcionalnost, aplikacija je podijeljena na razli�
   - **FormEvent**: Pohranjuje podatke forme u kojoj korisnik odabire komponente.
   - **LoginManager**: Upravljanje autentifikacijom korisnika i korisničkim podacima.
   - **OrderManager**: Upravljanje košaricom korisnika, provjera kompatibilnosti komponenti i izračun FPS-a za igre.
+  - **ToolBarEvent**: Upravlja specifičnim događajima koji su pokrenuti gumbima na alatnoj traci, poput pregleda narudžbi ili odjave.
 
 
 - **View (Pogled)**:

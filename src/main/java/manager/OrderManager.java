@@ -205,17 +205,18 @@ public class OrderManager {
     private int getGpuPowerRequirement(String gpu) {
         if (gpu.contains("NVIDIA GeForce RTX 4090")) {
             return 1000;
-        } else if (gpu.contains("NVIDIA GeForce RTX 4080")) {
+        } else if (gpu.contains("NVIDIA GeForce RTX 4080") || gpu.contains("AMD Radeon RX 7900 XTX")) {
             return 850;
-        } else if (gpu.contains("AMD Radeon RX 7900 XTX") || gpu.contains("AMD Radeon RX 7800 XT")) {
+        } else if (gpu.contains("AMD Radeon RX j7900 XT") || gpu.contains("AMD Radeon RX 7800 XT")) {
             return 750;
         } else if (gpu.contains("NVIDIA GeForce RTX 4070 Ti") || gpu.contains("AMD Radeon RX 7700 XT") || gpu.contains("NVIDIA GeForce RTX 3060")) {
             return 550;
         } else if (gpu.contains("AMD Radeon RX 7600 XT")) {
             return 500;
-        } else {
-            return 450; // Default za manje zahtjevne grafičke kartice
+        } else if (gpu.contains("NVIDIA GeForce RTX 2060")) {
+            return 450;
         }
+        return 0;
     }
 
     /**

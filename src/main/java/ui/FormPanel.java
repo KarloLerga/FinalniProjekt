@@ -151,43 +151,39 @@ public class FormPanel extends JPanel {
         add(calculateFPSButton);
 
         // ActionListener za gumb Dodaj u košaricu
-        addToCartButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (formPanelListener != null) {
-                    if (allComponentsSelected()) {
-                        formPanelListener.formEventOccurred(new FormEvent(
-                                motherboardComboBox.getSelectedItem().toString(),
-                                processorComboBox.getSelectedItem().toString(),
-                                ramComboBox.getSelectedItem().toString(),
-                                storageComboBox.getSelectedItem().toString(),
-                                powerSupplyComboBox.getSelectedItem().toString(),
-                                graphicsCardComboBox.getSelectedItem().toString(),
-                                gameComboBox.getSelectedItem().toString()
-                        ), true); // true označava dodavanje u košaricu
-                    } else {
-                        JOptionPane.showMessageDialog(FormPanel.this, "Molimo odaberite sve komponente.", "Upozorenje", JOptionPane.WARNING_MESSAGE);
-                    }
+        addToCartButton.addActionListener(e -> {
+            if (formPanelListener != null) {
+                if (allComponentsSelected()) {
+                    formPanelListener.formEventOccurred(new FormEvent(
+                            motherboardComboBox.getSelectedItem().toString(),
+                            processorComboBox.getSelectedItem().toString(),
+                            ramComboBox.getSelectedItem().toString(),
+                            storageComboBox.getSelectedItem().toString(),
+                            powerSupplyComboBox.getSelectedItem().toString(),
+                            graphicsCardComboBox.getSelectedItem().toString(),
+                            gameComboBox.getSelectedItem().toString()
+                    ), true); // true označava dodavanje u košaricu
+                } else {
+                    JOptionPane.showMessageDialog(FormPanel.this, "Molimo odaberite sve komponente.", "Upozorenje", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
 
         // ActionListener za gumb Izračunaj FPS
-        calculateFPSButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (formPanelListener != null) {
-                    if (allComponentsSelected()) {
-                        formPanelListener.formEventOccurred(new FormEvent(
-                                motherboardComboBox.getSelectedItem().toString(),
-                                processorComboBox.getSelectedItem().toString(),
-                                ramComboBox.getSelectedItem().toString(),
-                                storageComboBox.getSelectedItem().toString(),
-                                powerSupplyComboBox.getSelectedItem().toString(),
-                                graphicsCardComboBox.getSelectedItem().toString(),
-                                gameComboBox.getSelectedItem().toString()
-                        ), false); // false označava izračun FPS-a
-                    } else {
-                        JOptionPane.showMessageDialog(FormPanel.this, "Molimo odaberite sve komponente.", "Upozorenje", JOptionPane.WARNING_MESSAGE);
-                    }
+        calculateFPSButton.addActionListener(e -> {
+            if (formPanelListener != null) {
+                if (allComponentsSelected()) {
+                    formPanelListener.formEventOccurred(new FormEvent(
+                            motherboardComboBox.getSelectedItem().toString(),
+                            processorComboBox.getSelectedItem().toString(),
+                            ramComboBox.getSelectedItem().toString(),
+                            storageComboBox.getSelectedItem().toString(),
+                            powerSupplyComboBox.getSelectedItem().toString(),
+                            graphicsCardComboBox.getSelectedItem().toString(),
+                            gameComboBox.getSelectedItem().toString()
+                    ), false); // false označava izračun FPS-a
+                } else {
+                    JOptionPane.showMessageDialog(FormPanel.this, "Molimo odaberite sve komponente.", "Upozorenje", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
